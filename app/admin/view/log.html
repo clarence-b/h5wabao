@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>礼品后台管理</title>
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+      .item {
+        margin-bottom: 20px;
+      }
+  </style>
+</head>
+<body>
+  
+    <div class="container">
+        <div class="page-header">
+            <h3>“丰”收赢大奖 <small>用户中奖信息</small></h3>
+            <a href="{ROOT_URL}index.php?r=admin" class="btn btn-success">奖品设置</a>
+        </div>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="active">
+                <a href="index.php?r=admin/default/log">全部
+                <span class="badge">{$total}</span></a>
+            </li>
+            <li>
+                <a href="index.php?r=admin/default/log&ept=1">已领奖
+                <span class="badge">{$ept1}</span></a>
+            </li>
+            <li>
+                <a href="index.php?r=admin/default/log&ept=0">未领奖
+                <span class="badge">{$ept0}</span></a>
+            </li>
+            <li>
+                <div class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" id="telephone" class="form-control" placeholder="电话查找">
+                    </div>
+                    <button id="search" type="button" class="btn btn-default">查找</button>
+                </div>
+            </li>
+        </ul>
+        <table class="table table-hover">
+            <caption>中奖名单</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>奖品名称</th>
+                    <th>中奖时间</th>
+                    <th>是否领奖</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(is_array($logs)){ foreach($logs as $key=>$vo){ ?>
+                <tr>
+                    <td><?php echo ($key + 1); ?></td>
+                    <td>{$vo['username']}</td>
+                    <td>{$vo['telephone']}</td>
+                    <td>{$vo['prize_name']}</td>
+                    <td><?php echo date('Y-m-d H:i:s', $vo['created_at']); ?></td>
+                    <td><?php echo $vo['accept'] ? '<span style="color:#5A9367">已领奖</span>' : '<span style="color:#F16B6F">未领奖</span>'; ?></td>
+                </tr>
+                <?php }} ?>
+            </tbody>
+        </table>
+    </div>
+   
+    <script>
+        var oSearch = document.getElementById('search');
+        oSearch.addEventListener('click', function(){
+            var tel = document.getElementById('telephone').value;
+            window.location.href = 'index.php?r=admin/default/log&tel=' + tel;
+        });
+    </script>
+</body>
+</html>
